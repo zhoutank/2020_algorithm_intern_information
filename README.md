@@ -1,4 +1,5 @@
 ## 前言
+
 本仓库的知识点和文章主要用于个人复习和作知识点总结使用，部分内容参考自`github项目/网络资料/书籍`资料和[个人博客](http://www.armcvai.com/)等，由于时间和能力有限，有些知识点其实掌握得还不够深和全面, 我推荐额外阅读以下 `github` 仓库项目（有些已经停止更新, 当作参考）
 
 > 强调一下如何从“零”起步，首先确保基础打好。建议完整修完一门国外经典课程（从课程视频、作业到项目），然后完整阅读一本机器学习或者深度学习教科书，同时熟练掌握一门基本的编程语言以及深度学习框架。参考[中国人民大学赵鑫：AI 科研入坑指南](https://mp.weixin.qq.com/s/UH7UIq7ajwpdR6fZ9CfG6Q)。
@@ -9,6 +10,8 @@
 + [用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
 ## 算法/图像/CS基础/编程语言(`RoadMap`)
+
+> GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读。
 
 + [计算机基础](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80)
 + [数据结构与算法](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
