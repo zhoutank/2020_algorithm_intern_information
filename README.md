@@ -15,7 +15,6 @@
 
 + [计算机基础](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80)
 + [数据结构与算法](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
-+ [数字图像处理](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86)
 + [编程语言](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80)
 + [机器学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0)
 + [深度学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0)
