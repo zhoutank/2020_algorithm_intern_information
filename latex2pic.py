@@ -1,6 +1,7 @@
 import re
 from urllib.parse import quote
 import sys, os
+import os.path as osp
 current_dir = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 sys.path.append(current_dir)
 
@@ -45,7 +46,7 @@ def count_file_num(self, directory, file_type = "md"):
         return file_list, file_number
 
 def show_sgl_github_md(md_path):
-    assert os.path.splitext(path)[1] == '.md'
+    assert os.path.splitext(md_path)[1] == '.md'
     text = open(md_path, encoding="utf-8").read()
 
     parts = text.split("$$")
@@ -66,7 +67,7 @@ def show_sgl_github_md(md_path):
     text_out = "\n".join(lines)
 
     new_file_name = os.path.basename(md_path) + '_show'
-    new_file_path = osp.join(os.path.dirname(md_path), new_file_name
+    new_file_path = osp.join(os.path.dirname(md_path), new_file_name)
     with open("./深度学习/神经网络压缩算法总结new.md", "w", encoding='utf-8') as f:
         f.write(text_out)
 
