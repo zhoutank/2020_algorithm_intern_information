@@ -9,7 +9,12 @@
 + [CS-Notes](https://github.com/CyC2018/CS-Notes)
 + [用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
-## [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
+## 深度学习面试题
+
+> 深度学习基础的一些面试题和 `Python` 编程相关的面试题，部分题目来源网上资料。
+
++ [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
++ [Python 编程面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python-Shell%20%E5%9F%BA%E7%A1%80.md)
 
 ## 算法/图像/CS基础/编程语言(`RoadMap`)
 
