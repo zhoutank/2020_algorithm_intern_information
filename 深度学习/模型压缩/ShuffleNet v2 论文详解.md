@@ -160,7 +160,7 @@ $$
 
 ![表6](../../images/shufflenetv2/表6.png)
 
-对于很深的 ShuffleNet v2 模型（例如超过 `100` 层），我们通过添加一个 `residual path` 来轻微的修改基本的 `block` 结构，来使得模型的训练收敛更快。表 6 提供了 带 `SE` 模块的 `164` 层的 ShuffleNet v2 模型，其精度比当前最高精度的 state-of-the-art 模型 `SENet` 精度更高，同时 FLOPs 更少。
+对于很深的 ShuffleNet v2 模型（例如超过 `100` 层），我们通过添加一个 `residual path` 来轻微的修改基本的 `block` 结构，来使得模型的训练收敛更快。表 6 提供了 带 `SE` 模块的 `164` 层的 ShuffleNet v2 模型，其精度比当前最高精度的 state-of-the-art 模型 `SENet` 精度更高，同时 `FLOPs` 更少。
 
 **目标检测任务评估**。为了评估模型的泛化性能，我们使用 `Light-Head RCNN` 作为目标检测的框架，在 COCO 数据集上做了对比实验。表 7 的实验结果表明模型在 4 种不同复杂度条件下， ShuffleNet v2 做 backbone 的模型精度比其他网络更高、速度更快，全面超越其他网络。
 
