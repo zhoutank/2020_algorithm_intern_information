@@ -9,6 +9,8 @@
 + [CS-Notes](https://github.com/CyC2018/CS-Notes)
 + [用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
+## [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
+
 ## 算法/图像/CS基础/编程语言(`RoadMap`)
 
 > GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读。
@@ -60,8 +62,6 @@
 |最右|视频图像算法工程师实习|北京|未知|内推邮箱:sunhaiyong2014@xiaochuankeji.cn|简历命名格式：CVer推荐+姓名+电话+社招/校招/实习|CVer公众号|
 |爱奇艺智能平台部-视频分析组|视频理解算法实习生|北京中关村|未知|内推邮箱:zhangyuntao@qiyi.com|简历命名格式：CVer推荐+学校+研究方向+实习开始时间+毕业时间|CVer公众号|
 |依图科技|校招、实习、社招|上海、北京、杭州|长期|![依图科技-校招内推](images/依图科技-校招内推.png)|微信扫描二维码（长期有效），链接中的岗位均可投递||
-
-## [深度学习面试题](https://github.com/HarleysZhang/2019_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E9%A2%98.md)
 
 ## 2020年校招可投递公司-计算机视觉/机器学习算法工程师
 
