@@ -201,7 +201,7 @@ $$
 
 $$
 \begin{equation}
-bn(M \ast W, \mu, \sigma, \gamma, \beta)_{:,i,:,:} = (M \ast W^{'})_{:,i,:,:} + b_{i}^{'}. \label{4}
+bn(M \ast W,\mu,\sigma,\gamma,\beta)_{:,i,:,:} = (M \ast W^{'})_{:,i,:,:} + b_{i}^{'}. \label{4}
 \end{equation}
 $$
 
