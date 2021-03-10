@@ -57,8 +57,10 @@ MAC &= hw(c_{1} + c{2}) + c_{1}c_{2} \\
 针对 $1 \times 1$ 的分组卷积，我们有：
 > 分组卷积 `FLOPs` 的计算公式，我写的 [MobileNet v1 论文详解](https://63427ff0.wiz06.com/wapp/pages/view/share/s/1zgD_M0Qfx7F2AnL_C3tohc93-WpoF0GskOx2_h4E626G3MN) 有给出推导。
 
-$$ B = h*w*1*1*\frac{c_1}{g}*\frac{c_2}{g}*g = \frac{hwc_{1}c_{2}}{g}$$
-$$ MAC = hw(c_{1} + c_{2}) + \frac{c_{1}c_{2}}{g} = hwc_{1} + \frac{Bg}{c_1}+\frac{B}{hw}$$
+$$ B = h*w*1*1*\frac{c_1}{g}*\frac{c_2}{g}*g = \frac{hwc_{1}c_{2}}{g}
+$$
+$$ MAC = hw(c_{1} + c_{2}) + \frac{c_{1}c_{2}}{g} = hwc_{1} + \frac{Bg}{c_1}+\frac{B}{hw}
+$$
 
 其中 $B$ 是卷积层的浮点运算次数（`FLOPs`），$g$ 是分组卷积的组数，可以看到，如果给定输入特征图尺寸（`shape`）$c_{1} \times h \times w$ 和计算代价 $B$，则 $MAC$ 与组数 $g$ 成正比。本文通过叠加 10 个分组点卷积层设计了实验，在保证计算代价（`FLOPs`）相同的情况下采用不同的分组组数测试模型的运行时间，结果如下表 2 所示。
 
