@@ -31,20 +31,20 @@ MAC = ddr_read + ddr_write
 
 学习 [ACNet](https://arxiv.org/pdf/1908.03930.pdf) 之前，首先得理解一个关于卷积计算的恒等式，下面等式表达的意思就是对于输入特征图 $I$，先进行 $K^{(1)}$ 和 $I$ 卷积、$K^{(2)}$ 和 $I$ 卷积，再对结果进行相加，与先进行 $K^{(1)}$ 和 $K^{(2)}$ 的逐点相加后再和 $I$ 进行卷积得到的结果是一致的，这是 `ACNet`在**推理阶段不增加任何计算量的理论基础**，训练阶段计算量增加，训练时间更长，需要的显存更大。
 
-$$I \* K^{(1)} + I \* K^{(2)} = I *(K^{(1)} \oplus K^{(2)})$$
+$$I*K^{(1)} + I*K^{(2)} = I *(K^{(1)} \oplus K^{(2)})$$
 
 `ACNet` 的创新分为训练和推理阶段：
 
 + **训练阶段**：将现有网络中的每一个 $3 \times 3$ 卷积层换成 $3 \times 1$ 卷积 + $1 \times 3$卷积 + $3 \times 3$ 卷积共三个卷积层，并将三个卷积层的计算结果进行相加得到最终卷积层的输出。因为这个过程引入的  $1 \times 3$ 卷积和 $3 \times 1$ 卷积是非对称的，所以将其命名为 `Asymmetric Convolution`。论文中有实验证（见论文 `Table 4`）明引入 $1 \times 3$ 这样的水平卷积核可以提升模型对图像上下翻转的鲁棒性，竖直方向的 $3 \times 1$ 卷积核同理。
 + **推理阶段**：主要是对三个卷积核进行融合，这部分在实现过程中就是使用融合后的卷积核参数来初始化现有的网络。
 
-推理阶段的卷积融合操作是和 `BN` 层一起的，融合操作发生在 `BN` 之后，论文实验证明融合在 `BN` 之后效果更好些。推理阶段卷积层融合操作示意图如下所示（BN 操作省略了 $\varepsilon $）：
+推理阶段的卷积融合操作是和 `BN` 层一起的，融合操作发生在 `BN` 之后，论文实验证明融合在 `BN` 之后效果更好些。推理阶段卷积层融合操作示意图如下所示（BN 操作省略了 $\varepsilon$）：
 
 ![推理阶段卷积层融合](../../images/RepVGG/推理阶段卷积层融合.png)
 
 #### ACNet 的 Pytorch 代码实现
 
-作者开源了[代码](https://github.com/DingXiaoH/ACNet/blob/master/custom_layers/crop_layer.py)，将原始 $3 \times 3$ 卷积替换成 $3 \times 3 + 3 \times 1 + 1 \times3 $ 卷积的训练阶段基础结构 `ACBlock` 代码如下：
+作者开源了[代码](https://github.com/DingXiaoH/ACNet/blob/master/custom_layers/crop_layer.py)，将原始 $3\times 3$ 卷积替换成 $3 \times 3 + 3 \times 1 + 1 \times3$ 卷积的训练阶段基础结构 `ACBlock` 代码如下：
 
 ```python
 import torch.nn as nn
@@ -170,7 +170,7 @@ $$y = x + g(x) + f(x)$$
 
 训练时使用多分支卷积结构，推理时将多分支结构进行融合转换成单路 $3 \times 3$ 卷积层，由卷积的线性（具体说就是可加性）原理，每个 RepVGG Block 的三个分支可以合并为一个 $3 \times 3$ 卷积层（等价转换），`Figure 4` 详细描绘了这一转换过程。
 
-论文中使用 $W^{3} \in \mathbb{R}^{C_2 \times C_1 \times 3 \times 3}$ 表示卷积核 `shape` 为 $(C_2, C_1, 3, 3)$的卷积层，$W^{1} \in \mathbb{R}^{C_2 \times C_1}$ 表示输入输出通道数为 $C_2$、$C_1$，卷积核为 $1 \times 1$ 的卷积分支，采用 $ \mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}$ 表示 $3 \times 3$ 卷积后的 `BatchNorm` 参数（平均值、标准差、比例因子、偏差），采用 $\mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}$ 表示 $1 \times 1$ 卷积分支后的 `BatchNorm` 参数，采用 $\mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}$ 表示 `identity` 分支后的 `BatchNorm` 参数。假设 $M^{(1)} \in \mathbb{R}^{N \times C_1 \times H_1 \times W_1}$，$M^{(2)} \in \mathbb{R}^{N \times C_2 \times H_2 \times W_2}$ 分别表示输入输出矩阵，$*$ 是卷积算子。当 $C_2 = C_1, H_1 = H_2, W_1 = W_2$ 时，有
+论文中使用 $W^{3} \in \mathbb{R}^{C_2 \times C_1 \times 3 \times 3}$ 表示卷积核 `shape` 为 $(C_2, C_1, 3, 3)$的卷积层，$W^{1} \in \mathbb{R}^{C_2 \times C_1}$ 表示输入输出通道数为 $C_2$、$C_1$，卷积核为 $1 \times 1$ 的卷积分支，采用 $\mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}$ 表示 $3 \times 3$ 卷积后的 `BatchNorm` 参数（平均值、标准差、比例因子、偏差），采用 $\mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}$ 表示 $1 \times 1$ 卷积分支后的 `BatchNorm` 参数，采用 $\mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}$ 表示 `identity` 分支后的 `BatchNorm` 参数。假设 $M^{(1)} \in \mathbb{R}^{N \times C_1 \times H_1 \times W_1}$，$M^{(2)} \in \mathbb{R}^{N \times C_2 \times H_2 \times W_2}$ 分别表示输入输出矩阵，$*$ 是卷积算子。当 $C_2 = C_1, H_1 = H_2, W_1 = W_2$ 时，有
 
 $$
 \begin{align}
@@ -214,7 +214,7 @@ $$
 
 ![图4](../../images/RepVGG/图4.png)
 
-从上述这一转换过程中，可以理解**“结构重参数化”**的实质：训练时的结构对应一组参数，推理时我们想要的结构对应另一组参数；只要能把前者的参数等价转换为后者，就可以将前者的结构等价转换为后者。
+从上述这一转换过程中，可以理解**结构重参数化**的实质：训练时的结构对应一组参数，推理时我们想要的结构对应另一组参数；只要能把前者的参数等价转换为后者，就可以将前者的结构等价转换为后者。
 
 ## 结论
 

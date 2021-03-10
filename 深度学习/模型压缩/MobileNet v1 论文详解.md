@@ -18,16 +18,18 @@
 
 **分组卷积的意义：**分组卷积是现在网络结构设计的核心，它通过通道之间的**稀疏连接**（也就是只和同一个组内的特征连接）来降低计算复杂度。一方面，它允许我们使用更多的通道数来增加网络容量进而提升准确率，但另一方面随着通道数的增多也对带来更多的 $MAC$。针对 $1 \times 1$ 的分组卷积，$MAC$ 和 $FLOPs$ 计算如下：
 
-$$\begin{align*}
+$$
+\begin{align*}
 & MACC = H \times W \times 1 \times 1 \times \frac{c_{1}}{g}\frac{c_{2}}{g} \times g = \frac{hwc_{1}c_{2}}{g} \\
 & FLOPs = 2 \times MACC \\
 & Params = g \times \frac{c_2}{g}\times\frac{c_1}{g} \times 1\times 1 + c_2 = \frac{c_{1}c_{2}}{g} \\
 & MAC = HW(c_1 + c_2) + \frac{c_{1}c_{2}}{g} \\
-\end{align*}$$
+\end{align*}
+$$
 
 从以上公式可以得出分组卷积的参数量和计算量是标准卷积的 $\frac{1}{g}$ 的结论 ，但其实对分组卷积过程进行深入理解之后也可以直接得出以上结论。
 
-**分组卷积的深入理解：**对于 $1 \times 1 $ 卷积，常规卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times c_1$ 个点计算得到，而分组卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times \frac{c_1}{g}$个点得到（参考常规卷积计算过程）。**卷积运算过程是线性的，自然，分组卷积的参数量和计算量是标准卷积的 $\frac{1}{g}$ 了**。
+**分组卷积的深入理解**：对于 $1\times 1$ 卷积，常规卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times c_1$ 个点计算得到，而分组卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times \frac{c_1}{g}$个点得到（参考常规卷积计算过程）。**卷积运算过程是线性的，自然，分组卷积的参数量和计算量是标准卷积的 $\frac{1}{g}$ 了**。
 
 当分组卷积的分组数量=输入 map 数量=输出 map 数量时，即 $g=c_1=c_2$，有 $c_2$ 个滤波器，每个滤波器尺寸为 $c_1 \times K \times K$ 时，Group Convolution 就成了 Depthwise Convolution。
 
@@ -52,19 +54,19 @@ Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离�
 
 #### Depthwise 卷积
 
-> 注意本文 DW 和 PW 卷积计算量的计算与论文有所区别，本文的输出 Feature map 大小是 $D_G \times D_G$， 论文公式是$D_F \times D_F $。
+> 注意本文 DW 和 PW 卷积计算量的计算与论文有所区别，本文的输出 Feature map 大小是 $D_G \times D_G$， 论文公式是$D_F \times D_F$。
 
 不同于常规卷积操作， Depthwise Convolution 的一个卷积核只负责一个通道，**一个通道只能被一个卷积核卷积**（不同的通道采用不同的卷积核卷积），也就是输入通道、输出通道和分组数相同的特殊分组卷积，因此 Depthwise（`DW`）卷积不会改变输入特征图的通道数目。深度可分离卷积的 `DW`卷积步骤如下图：
 
-![DW卷积计算步骤](../../images/mobilenetv1/DW卷积计算步骤.png)
+![DW卷积计算步骤](../../images/mobilenetv1/DW卷积计算步骤.jpg)
 
-`DW` 卷积的计算量 $MACC  = M \times D_{G}^{2} \times D_{K}^{2} $
+`DW` 卷积的计算量 $MACC  = M \times D_{G}^{2} \times D_{K}^{2}$
 
 ### Pointwise 卷积
 
 上述 Depthwise 卷积的问题在于它让每个卷积核单独对一个通道进行计算，但是各个通道的信息没有达到交换，从而在网络后续信息流动中会损失通道之间的信息，因此论文中就加入了 Pointwise 卷积操作，来进一步融合通道之间的信息。PW 卷积是一种特殊的常规卷积，卷积核的尺寸为 $1 \times 1$。`PW` 卷积的过程如下图：
 
-![PW卷积过程](../../images/mobilenetv1/PW卷积过程.png)
+![PW卷积过程](../../images/mobilenetv1/PW卷积过程.jpg)
 
 假设输入特征图大小为 $D_{G} \times D_{G} \times M$，输出特征图大小为 $D_{G} \times D_{G} \times N$，则滤波器尺寸为 $1 \times 1 \times M$，因此可计算得到 `PW` 卷积的计算量 $MACC = N \times M \times D_{G}^{2}$。
 
@@ -119,7 +121,7 @@ MobileNet 模型结构将几乎所有计算都放入密集的 1×1 卷积中（d
 
 ### 宽度乘系数-更小的模型
 
-尽管基本的 `MobileNet` 体系结构已经很小且网络延迟 `latency` 很低，但很多情况下特定用例或应用可能要求模型变得更小，更快。为了构建这些更小且计算成本更低的模型，我们引入了一个非常简单的参数 $\alpha$，称为 `width 乘数`。**宽度乘数** $\alpha$ 的作用是使每一层的网络均匀变薄。对于给定的层和宽度乘数 $\alpha$，输入通道的数量变为 $\alpha M$，而输出通道的数量 $N$ 变为 $\alpha N$。具有宽度乘数 $ \alpha$ 的深度可分离卷积（其它参数和上文一致）的计算成本为：
+尽管基本的 `MobileNet` 体系结构已经很小且网络延迟 `latency` 很低，但很多情况下特定用例或应用可能要求模型变得更小，更快。为了构建这些更小且计算成本更低的模型，我们引入了一个非常简单的参数 $\alpha$，称为 `width 乘数`。**宽度乘数** $\alpha$ 的作用是使每一层的网络均匀变薄。对于给定的层和宽度乘数 $\alpha$，输入通道的数量变为 $\alpha M$，而输出通道的数量 $N$ 变为 $\alpha N$。具有宽度乘数 $\alpha$ 的深度可分离卷积（其它参数和上文一致）的计算成本为：
 
 $$\alpha M \times D_{G}^{2} \times D_{K}^{2} + \alpha N \times \alpha M \times D_{G}^{2}$$
 
