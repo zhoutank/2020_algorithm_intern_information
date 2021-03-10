@@ -57,7 +57,7 @@ MAC &= hw(c_{1} + c{2}) + c_{1}c_{2} \\
 针对 $1 \times 1$ 的分组卷积，我们有：
 > 分组卷积 `FLOPs` 的计算公式，我写的 [MobileNet v1 论文详解](https://63427ff0.wiz06.com/wapp/pages/view/share/s/1zgD_M0Qfx7F2AnL_C3tohc93-WpoF0GskOx2_h4E626G3MN) 有给出推导。
 
-$$ B = h*w*1*1*\frac{c_1}{g}*\frac{c_2}{g}*g = \frac{hwc_{1}c_{2}}{g}
+$$ B = h \ast w \ast 1 \ast 1 \ast \frac{c_1}{g} \ast \frac{c_2}{g} \ast g = \frac{hwc_{1}c_{2}}{g}
 $$
 $$ MAC = hw(c_{1} + c_{2}) + \frac{c_{1}c_{2}}{g} = hwc_{1} + \frac{Bg}{c_1}+\frac{B}{hw}
 $$
