@@ -156,7 +156,7 @@ $$
 
 ![SE](../../images/shufflenetv2/SE.png)
 
-**大型模型通用化（Generation to Large Models）**。虽然本文的消融（`ablation`）实验主要是针对轻量级网络，但是 `ShuffleNet v2` 在大型模型（比如 `FLOPs` $\geqslant$ `2G`）的表现上也丝毫不逊色。**表6** 比较了`50` 层的 `ShuffleNet v2`、`ShuffleNet v1` 和 `ResNet50` 在 `ImageNet` 分类实验上的精度，可以看出同等 `FLOPs=2.3G` 条件下 ShuffleNet v2 比 v1 的精度更高，同时和 ResNet50 相比 `FLOPs` 减少 `40%`，但是精度表现更好。实验用的网络细节参考附录表`2`。
+**大型模型通用化（Generation to Large Models）**。虽然本文的消融（`ablation`）实验主要是针对轻量级网络，但是 `ShuffleNet v2` 在大型模型（FLOPs $\geqslant$ 2G）的表现上也丝毫不逊色。**表6** 比较了`50` 层的 `ShuffleNet v2`、`ShuffleNet v1` 和 `ResNet50` 在 `ImageNet` 分类实验上的精度，可以看出同等 `FLOPs=2.3G` 条件下 ShuffleNet v2 比 v1 的精度更高，同时和 ResNet50 相比 `FLOPs` 减少 `40%`，但是精度表现更好。实验用的网络细节参考附录表`2`。
 
 ![表6](../../images/shufflenetv2/表6.png)
 
