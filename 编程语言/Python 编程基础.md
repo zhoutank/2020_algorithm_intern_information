@@ -97,6 +97,7 @@ print('##############')
 Foo.static_method()
 Foo.class_method()
 ```
+
 程序执行后输出如下：
 > 是类 <class '__main__.Foo'> 的实例方法，只能被实例对象调用
 是静态方法
