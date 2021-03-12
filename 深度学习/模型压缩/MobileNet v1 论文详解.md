@@ -4,17 +4,23 @@
 
 ## 1、相关工作
 
+### 标准卷积
+
+一个滤波器（`3` 维卷积核）在输入特征图 $h_1 \times w_1 \times c_1$ 大小的区域内操作，输出结果为 `1` 个 `feature map` ，因为输出 `feature map` 的数量为 $c_2$ 个，所以需要 $c_2$ 个滤波器。标准卷积抽象过程如下图所示。
+
+![标准卷积过程](../../images/mobilenetv1/标准卷积过程.png)
+
+`2D` 卷积计算过程动态图如下，通过这张图能够更直观理解卷积核如何执行滑窗操作，又如何相加并输出 $c_2$ 个  `feature map` ，动态图来源[这里](https://blog.csdn.net/v_july_v/article/details/51812459?utm_source=copy)。
+![卷积过程](https://img-blog.csdn.net/20160707204048899)
+
 ### 分组卷积
 
 `Group Convolution` 分组卷积，最早见于 `AlexNet`。常规卷积与分组卷积的输入 feature map 与输出 feature map 的连接方式如下图所示，图片来自[CondenseNet](https://www.researchgate.net/figure/The-transformations-within-a-layer-in-DenseNets-left-and-CondenseNets-at-training-time_fig2_321325862)。
 
 ![分组卷积](../../images/mobilenetv1/分组卷积.png)
 
-**分组卷积的定义**：将输入特征图按通道分为 $g$ 组，每组特征图的尺寸为 $H \times W * \frac{c_1}{g}$，分组卷积输出通道数为 $c_2$，则**每组**对应的滤波器（卷积核）的 尺寸 为 $h_{1} \times w_{1} \times \frac{c_{2}}{g} \times \frac{c_{1}}{g}$，每组的卷积核只与其同组的输入 map 进行卷积，每组输出特征图尺寸为 $H \times W \times \frac{c_{2}}{g}$，将 $g$ 组卷积后的结果进行拼接 (`concatenate`) 得到最终的得到最终尺寸为 $ H \times W \times c_2$ 的输出特征图，其分组卷积过程如下图所示：
+**分组卷积的定义**：对输入 `feature map` 进行分组，然后分组分别进行卷积。假设输入 feature map 的尺寸为 $H \times W \times c_{1}$，输出 feature map 数量为 $c_2$ 个，如果将输入 feature map 按通道分为 $g$ 组，则每组特征图的尺寸为 $H \times W \times \frac{c_1}{g}$，**每组**对应的滤波器（卷积核）的 尺寸 为 $h_{1} \times w_{1} \times \frac{c_{1}}{g}$，每组的滤波器数量为  $\frac{c_{2}}{g}$ 个，滤波器总数依然为 $c_2$ 个。每组的滤波器只与其同组的输入 map 进行卷积，每组输出特征图尺寸为 $H \times W \times \frac{c_{2}}{g}$，将 $g$ 组卷积后的结果进行拼接 (`concatenate`) 得到最终的得到最终尺寸为 $H \times W \times c_2$ 的输出特征图，其分组卷积过程如下图所示：
 
-> 一个滤波器在输入特征图 $h_1 \times w_1 \times c_1$ 大小的区域内操作，输出结果为 1 个数值，所以需要 $c_2$ 个滤波器。
-
-![分组卷积过程1](../../images/mobilenetv1/分组卷积过程1.png)
 ![分组卷积过程2](../../images/mobilenetv1/分组卷积过程2.png)
 
 **分组卷积的意义：**分组卷积是现在网络结构设计的核心，它通过通道之间的**稀疏连接**（也就是只和同一个组内的特征连接）来降低计算复杂度。一方面，它允许我们使用更多的通道数来增加网络容量进而提升准确率，但另一方面随着通道数的增多也对带来更多的 $MAC$。针对 $1 \times 1$ 的分组卷积，$MAC$ 和 $FLOPs$ 计算如下：
@@ -32,7 +38,8 @@ $$
 
 **分组卷积的深入理解**：对于 $1\times 1$ 卷积，常规卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times c_1$ 个点计算得到，而分组卷积输出的特征图上，每一个像素点是由输入特征图的 $h_1 \times w_1 \times \frac{c_1}{g}$个点得到（参考常规卷积计算过程）。**卷积运算过程是线性的，自然，分组卷积的参数量和计算量是标准卷积的 $\frac{1}{g}$ 了**。
 
-当分组卷积的分组数量=输入 map 数量=输出 map 数量时，即 $g=c_1=c_2$，有 $c_2$ 个滤波器，每个滤波器尺寸为 $c_1 \times K \times K$ 时，Group Convolution 就成了 Depthwise Convolution。
+当分组卷积的分组数量=输入 map 数量=输出 map 数量时，即 $g=c_1=c_2$，有 $c_1$ 个滤波器，每个滤波器尺寸为 $1 \times K \times K$ 时，Group Convolution 就成了 Depthwise Convolution（DW 卷积），**`DW` 卷积的卷积核权重尺寸为** $(c_{1}, 1, K, K)$。
+> 常规卷积的卷积核权重 shape 都为（`C_out, C_in, kernel_height, kernel_width`），常规卷积是这样，但是分组卷积的卷积核权重 `shape` 为（`C_out, C_in/g, kernel_height, kernel_width`）和 `DW` 卷积的卷积核权重 `shape` 为（`C_in, 1, kernel_height, kernel_width`）。
 
 ### 从 Inception module 到 depthwise separable convolutions
 
@@ -63,7 +70,7 @@ Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离�
 
 `DW` 卷积的计算量 $MACC  = M \times D_{G}^{2} \times D_{K}^{2}$
 
-### Pointwise 卷积
+#### Pointwise 卷积
 
 上述 Depthwise 卷积的问题在于它让每个卷积核单独对一个通道进行计算，但是各个通道的信息没有达到交换，从而在网络后续信息流动中会损失通道之间的信息，因此论文中就加入了 Pointwise 卷积操作，来进一步融合通道之间的信息。PW 卷积是一种特殊的常规卷积，卷积核的尺寸为 $1 \times 1$。`PW` 卷积的过程如下图：
 
@@ -82,7 +89,7 @@ $$\begin{align*}
 可以看到 `Depthwise + Pointwise` 卷积的**计算量**相较于标准卷积近乎减少了 $N$ 倍，$N$ 为输出特征图的通道数目，同理**参数量**也会减少很多。在达到相同目的（即对相邻元素以及通道之间信息进行计算）下， 深度可分离卷积能极大减少卷积计算量，因此大量移动端网络的 `backbone` 都采用了这种卷积结构，再加上模型蒸馏，剪枝，能让移动端更高效的推理。
 > 深度可分离卷积的详细计算过程可参考 [Depthwise卷积与Pointwise卷积](https://zhuanlan.zhihu.com/p/80041030)。
 
-### 网络结构
+### 2.2、网络结构
 
 $3 \times 3$ 的深度可分离卷积 `Block` 结构如下图所示：
 
@@ -96,6 +103,7 @@ class MobilnetV1Block(nn.Module):
     """Depthwise conv + Pointwise conv"""
     def __init__(self, in_channels, out_channels, stride=1):
         super(MobilnetV1Block, self).__init__()
+        # dw conv kernel shape is (in_channels, 1, ksize, ksize)
         self.dw = nn.Conv2d(in_channels, in_channels, kernel_size=3,stride=stride,padding=1, groups=in_channels, bias=False)
         self.bn1 = nn.BatchNorm2d(in_channels)
         self.pw = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0, bias=False)
@@ -120,7 +128,7 @@ MobileNet 模型结构将几乎所有计算都放入密集的 1×1 卷积中（d
 
 ![表2](../../images/mobilenetv1/表2.png)
 
-### 宽度乘系数-更小的模型
+### 2.3、宽度乘系数-更小的模型
 
 尽管基本的 `MobileNet` 体系结构已经很小且网络延迟 `latency` 很低，但很多情况下特定用例或应用可能要求模型变得更小，更快。为了构建这些更小且计算成本更低的模型，我们引入了一个非常简单的参数 $\alpha$，称为 `width 乘数`。**宽度乘数** $\alpha$ 的作用是使每一层的网络均匀变薄。对于给定的层和宽度乘数 $\alpha$，输入通道的数量变为 $\alpha M$，而输出通道的数量 $N$ 变为 $\alpha N$。具有宽度乘数 $\alpha$ 的深度可分离卷积（其它参数和上文一致）的计算成本为：
 
@@ -130,14 +138,14 @@ $$\alpha M \times D_{G}^{2} \times D_{K}^{2} + \alpha N \times \alpha M \times D
 
 ![表1](../../images/mobilenetv1/表1.png)
 
-### 分辨率乘系数-减少表示
+### 2.4、分辨率乘系数-减少表示
 
 减少模型计算成本的的第二个超参数（hyper-parameter）是**分辨率因子** $\rho$，论文将其应用于输入图像，则网络的每一层 feature map 大小也要乘以 $\rho$。实际上，论文通过设置输入分辨率来隐式设置 $\rho$。
 将网络核心层的计算成本表示为具有宽度乘数 $\alpha$ 和分辨率乘数 $\rho$ 的深度可分离卷积的公式如下：
 $$\alpha M \times \rho D_{G}^{2} \times D_{K}^{2} + \alpha N \times \alpha M \times \rho D_{G}^{2}$$
 其中 $\rho \in (0,1]$，通常是隐式设置的，因此网络的输入分辨率为 `224、192、160` 或 `128`。$\rho = 1$ 时是基准(`baseline`) MobilNet，$\rho < 1$ 时缩小版 `MobileNets`。**分辨率乘数的作用是将计算量减少 $\rho^2$**。
 
-### 模型结构总结
+### 2.5、模型结构总结
 
 + 整个网络不算平均池化层与 `softmax` 层，且将 `DW` 卷积和 `PW` 卷积计为单独的一层，则 `MobileNet` 有 `28` 层网络。+ 在整个网络结构中步长为2的卷积较有特点，卷积的同时充当下采样的功能；
 + 第一层之后的 `26` 层都为深度可分离卷积的重复卷积操作，分为 `4` 个卷积 `stage`；
@@ -157,11 +165,44 @@ $$\alpha M \times \rho D_{G}^{2} \times D_{K}^{2} + \alpha N \times \alpha M \ti
 自己复现的基准 MobileNet v1 代模型 pytorch 代码如下：
 
 ```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision.models as models
+from torch import flatten
+
+class MobilnetV1Block(nn.Module):
+    """Depthwise conv + Pointwise conv"""
+
+    def __init__(self, in_channels, out_channels, stride=1):
+        super(MobilnetV1Block, self).__init__()
+        # dw conv kernel shape is (in_channels, 1, ksize, ksize)
+        self.dw = nn.Sequential(
+            nn.Conv2d(in_channels, 64, kernel_size=3,
+                      stride=stride, padding=1, groups=4, bias=False),
+            nn.BatchNorm2d(in_channels),
+            nn.ReLU(inplace=True)
+        )
+        # print(self.dw[0].weight.shape)  # print dw conv kernel shape
+        self.pw = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=1,
+                      stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True)
+        )
+
+    def forward(self, x):
+        x = self.dw(x)
+        x = self.pw(x)
+        return x
+
+
 def convbn_relu(in_channels, out_channels, stride=2):
     return nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride,
                                    padding=1, bias=False),
                          nn.BatchNorm2d(out_channels),
                          nn.ReLU(inplace=True))
+
 
 class MobileNetV1(nn.Module):
     # (32, 64, 1) means MobilnetV1Block in_channnels is 32, out_channels is 64, no change in map size.
@@ -198,6 +239,7 @@ class MobileNetV1(nn.Module):
 
         return x
 
+
 if __name__ == "__main__":
     model = MobileNetV1()
     model.eval()                  # set the model to inference mode
@@ -212,9 +254,8 @@ if __name__ == "__main__":
 ## 参考资料
 
 1. [Group Convolution分组卷积，以及Depthwise Convolution和Global Depthwise Convolution](https://www.cnblogs.com/shine-lee/p/10243114.html)
-2. [分组卷积和深度可分离卷积](https://linzhenyuyuchen.github.io/2020/05/09/%E5%88%86%E7%BB%84%E5%8D%B7%E7%A7%AF%E5%92%8C%E6%B7%B1%E5%BA%A6%E5%8F%AF%E5%88%86%E7%A6%BB%E5%8D%B7%E7%A7%AF/)
-3. [理解分组卷积和深度可分离卷积如何降低参数量](https://zhuanlan.zhihu.com/p/65377955)
-4. [深度可分离卷积（Xception 与 MobileNet 的点滴）](https://www.jianshu.com/p/38dc74d12fcf)
-5. [MobileNetV1代码实现](https://www.cnblogs.com/linzzz98/articles/13453810.html)
-6. [Depthwise卷积与Pointwise卷积](https://zhuanlan.zhihu.com/p/80041030)
-7. [【CNN结构设计】深入理解深度可分离卷积](https://mp.weixin.qq.com/s/IZ-nbrCL8-9w32RSYeP_bg)
+2. [理解分组卷积和深度可分离卷积如何降低参数量](https://zhuanlan.zhihu.com/p/65377955)
+3. [深度可分离卷积（Xception 与 MobileNet 的点滴）](https://www.jianshu.com/p/38dc74d12fcf)
+4. [MobileNetV1代码实现](https://www.cnblogs.com/linzzz98/articles/13453810.html)
+5. [Depthwise卷积与Pointwise卷积](https://zhuanlan.zhihu.com/p/80041030)
+6. [【CNN结构设计】深入理解深度可分离卷积](https://mp.weixin.qq.com/s/IZ-nbrCL8-9w32RSYeP_bg)
