@@ -84,7 +84,7 @@ $$\begin{align*}
 \frac{Depthwise \ Separable \ Conv}{Standard \ Conv} &= \frac{M \times D_{G}^{2}(D_{K}^{2} + N)}{N \times D_{G}^{2} \times D_{K}^{2} \times M} \\
 &= \frac{D_{K}^{2} + N}{D_{K}^{2} \times N} \\
 &= \frac{1}{N} + \frac{1}{D_{K}^{2}} \\
-\end{align*}$$
+\end{align*}$$ 
 
 可以看到 `Depthwise + Pointwise` 卷积的**计算量**相较于标准卷积近乎减少了 $N$ 倍，$N$ 为输出特征图的通道数目，同理**参数量**也会减少很多。在达到相同目的（即对相邻元素以及通道之间信息进行计算）下， 深度可分离卷积能极大减少卷积计算量，因此大量移动端网络的 `backbone` 都采用了这种卷积结构，再加上模型蒸馏，剪枝，能让移动端更高效的推理。
 > 深度可分离卷积的详细计算过程可参考 [Depthwise卷积与Pointwise卷积](https://zhuanlan.zhihu.com/p/80041030)。
