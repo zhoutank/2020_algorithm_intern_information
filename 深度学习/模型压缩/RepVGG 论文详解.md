@@ -173,36 +173,36 @@ $$y = x + g(x) + f(x)$$
 论文中使用 $W^{3} \in \mathbb{R}^{C_2 \times C_1 \times 3 \times 3}$ 表示卷积核 `shape` 为 $(C_2, C_1, 3, 3)$的卷积层，$W^{1} \in \mathbb{R}^{C_2 \times C_1}$ 表示输入输出通道数为 $C_2$、$C_1$，卷积核为 $1 \times 1$ 的卷积分支，采用 $\mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}$ 表示 $3 \times 3$ 卷积后的 `BatchNorm` 参数（平均值、标准差、比例因子、偏差），采用 $\mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}$ 表示 $1 \times 1$ 卷积分支后的 `BatchNorm` 参数，采用 $\mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}$ 表示 `identity` 分支后的 `BatchNorm` 参数。假设 $M^{(1)} \in \mathbb{R}^{N \times C_1 \times H_1 \times W_1}$，$M^{(2)} \in \mathbb{R}^{N \times C_2 \times H_2 \times W_2}$ 分别表示输入输出矩阵，$*$ 是卷积算子。当 $C_2 = C_1, H_1 = H_2, W_1 = W_2$ 时，有
 
 $$
-\begin{align}
+\begin{split}
 M^{(2)} &= bn(M^{(1)} \ast W^{(3)}, \mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}) \\
 &+ bn(M^{(1)} \ast W^{(1)}, \mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}) \\
-&+ bn(M^{(1)}, \mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}). \tag{1}
-\end{align} 
+&+ bn(M^{(1)}, \mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}).
+\end{split}\tag{1}
 $$
 
 如果不考虑 `identity` 的分支，上述等式只有前面两部分。这里 `bn` 表示推理时 `BN` 计算函数，$1 \leq i \leq C_2$。`bn` 函数公式如下：
 
 $$
-\begin{equation}
-bn(M, \mu, \sigma, \gamma, \beta) = (M_{:,i,:,:} - \mu_i) \frac{\gamma_i}{\sigma_i} + \beta. \tag{2}
-\end{equation}
+\begin{split}
+bn(M, \mu, \sigma, \gamma, \beta) = (M_{:,i,:,:} - \mu_i) \frac{\gamma_i}{\sigma_i} + \beta.
+\end{split}\tag{2}
 $$
 
 首先将每一个 `BN` 及其前面的卷积层转换成一个**带有偏置向量的卷积**（吸 BN），设 $\{w^{'}, b^{'}\}$ 表示 **吸 BN** 之后卷积层的卷积核和偏置向量参数，卷积层和 `BN` 合并后的卷积有如下公式：
 > 推理时的卷积层和其后的 `BN` 层可以等价转换为一个带 `bias` 的卷积层（也就是通常所谓的“吸BN”），其原理参考[深度学习推理时融合BN，轻松获得约5%的提速](https://mp.weixin.qq.com/s/P94ACKuoA0YapBKlrgZl3A)。
 
 $$
-\begin{equation}
-W_{i,:,:,:}^{'} = \frac{\gamma_i}{\sigma_i} W_{i,:,:,:}, \quad b_{i}^{'} = -\frac{\mu_{i} \gamma_i}{\sigma_i} + \beta_{i}. \tag{3}
-\end{equation}
+\begin{split}
+W_{i,:,:,:}^{'} = \frac{\gamma_i}{\sigma_i} W_{i,:,:,:}, \quad b_{i}^{'} = -\frac{\mu_{i} \gamma_i}{\sigma_i} + \beta_{i}.
+\end{split}\tag{3}
 $$
 
 很容易证明当 $1 \leq i \leq C_2$：
 
 $$
-\begin{equation}
-bn(M \ast W,\mu,\sigma,\gamma,\beta)_{:,i,:,:} = (M \ast W^{'})_{:,i,:,:} + b_{i}^{'}. \tag{4}
-\end{equation}
+\begin{split}
+bn(M \ast W,\mu,\sigma,\gamma,\beta)_{:,i,:,:} = (M \ast W^{'})_{:,i,:,:} + b_{i}^{'}.
+\end{split}\tag{4}
 $$
 
 公式（4）同样适用于`identity` 分支，因为 `identity` 可以视作 $1\times 1$ 卷积。至此，三个分支的卷积层和 `BN` 合并原理和公式已经叙述完毕，可以等效于 Figure 4 的第二步（吸收 BN 在前）。
@@ -225,3 +225,4 @@ $$
 + [RepVGG：极简架构，SOTA性能，让VGG式模型再次伟大](https://zhuanlan.zhihu.com/p/344324470)
 + [深度学习推理时融合BN，轻松获得约5%的提速](https://mp.weixin.qq.com/s/P94ACKuoA0YapBKlrgZl3A)
 + [【CNN结构设计】无痛的涨点技巧：ACNet](https://zhuanlan.zhihu.com/p/131282789)
++ [Markdown下LaTeX公式、编号、对齐](https://www.zybuluo.com/fyywy520/note/82980)

@@ -37,12 +37,14 @@
 
 简单起见，我们假设计算设备的缓冲足够大能够存放下整个特征图和参数。那么 $1 \times 1$ 卷积层的内存访问代价（内存访问次数）为 $MAC = hwc_1 + hwc_2 + c_{1}c_{2} = hw(c_{1} + c_{2}) + c_{1}c_{2}$，等式的三项分别代表输入特征图、输出特征图和权重参数的代价。由均值不等式，我们有：
 
-$$\begin{align*}
+$$
+\begin{split}
 MAC &= hw(c_{1} + c{2}) + c_{1}c_{2} \\
 &= \sqrt{(hw)^{2}(c_{1} + c_{2})^{2}} + \frac{B}{hw} \\
 &\geqslant \sqrt{(hw)^{2}(4c_{1}c_{2})}+ \frac{B}{hw} \\
 &\geqslant 2\sqrt{hwB} + \frac{B}{hw} \\
-\end{align*}$$
+\end{split}
+$$
 
 由均值不等式，可知当 $c_1 = c_2$ 时，$(c_{1} + c_{2})^{2} = 4c_{1}c_{2}$，即式子 $(c_{1} + c_{2})^{2}$ 取下限。即当且仅当 $c_{1}=c_{2}$ （$1 \times 1$ **卷积输入输出通道数相等**）时，`MAC` 取得最小值。但是这个结论只是理论上成立的，实际中缓存容量可能不够大，缓存策略也因平台各异。所以我们进一步设计了一个对比试验来验证，实验的基准的网络由 10 个卷积 `block` 组成，每个块有两层卷积，第一个卷积层输入通道数为 $c_{1}$ 输出通道数为$c_{2}$，第二层与第一层相反，然后固定总的 FLOPs 调整$c_{1}:c_{2}$的值测试实际的运行速度，结果如表 1 所示：
 
@@ -57,9 +59,16 @@ MAC &= hw(c_{1} + c{2}) + c_{1}c_{2} \\
 针对 $1 \times 1$ 的分组卷积，我们有：
 > 分组卷积 `FLOPs` 的计算公式，我写的 [MobileNet v1 论文详解](https://63427ff0.wiz06.com/wapp/pages/view/share/s/1zgD_M0Qfx7F2AnL_C3tohc93-WpoF0GskOx2_h4E626G3MN) 有给出推导。
 
-$$ B = h \ast w \ast 1 \ast 1 \ast \frac{c_1}{g} \ast \frac{c_2}{g} \ast g = \frac{hwc_{1}c_{2}}{g}$$
+$$
+\begin{split}
+B = h \ast w \ast 1 \ast 1 \ast \frac{c_1}{g} \ast \frac{c_2}{g} \ast g = \frac{hwc_{1}c_{2}}{g}
+\end{split}
+$$
 
-$$ MAC = hw(c_{1} + c_{2}) + \frac{c_{1}c_{2}}{g} = hwc_{1} + \frac{Bg}{c_1}+\frac{B}{hw}$$
+$$ 
+\begin{split}
+MAC = hw(c_{1} + c_{2}) + \frac{c_{1}c_{2}}{g} = hwc_{1} + \frac{Bg}{c_1}+\frac{B}{hw}\end{split}
+$$
 
 > 固定 $\frac{c_2}{g}$ 的比值，又因为输入特征图 $c_{1} \times h \times w$ 固定，从而也就固定了计算代价 $B$，所以可得 上式中 $MAC$ 与 $g$ 成正比的关系。
 
