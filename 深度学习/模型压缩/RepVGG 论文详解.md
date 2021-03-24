@@ -173,11 +173,11 @@ $$y = x + g(x) + f(x)$$
 论文中使用 $W^{3} \in \mathbb{R}^{C_2 \times C_1 \times 3 \times 3}$ 表示卷积核 `shape` 为 $(C_2, C_1, 3, 3)$的卷积层，$W^{1} \in \mathbb{R}^{C_2 \times C_1}$ 表示输入输出通道数为 $C_2$、$C_1$，卷积核为 $1 \times 1$ 的卷积分支，采用 $\mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}$ 表示 $3 \times 3$ 卷积后的 `BatchNorm` 参数（平均值、标准差、比例因子、偏差），采用 $\mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}$ 表示 $1 \times 1$ 卷积分支后的 `BatchNorm` 参数，采用 $\mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}$ 表示 `identity` 分支后的 `BatchNorm` 参数。假设 $M^{(1)} \in \mathbb{R}^{N \times C_1 \times H_1 \times W_1}$，$M^{(2)} \in \mathbb{R}^{N \times C_2 \times H_2 \times W_2}$ 分别表示输入输出矩阵，$*$ 是卷积算子。当 $C_2 = C_1, H_1 = H_2, W_1 = W_2$ 时，有
 
 $$
-\begin{aligned}
+\begin{align}
 M^{(2)} &= bn(M^{(1)} \ast W^{(3)}, \mu^{(3)}, \sigma^{(3)}, \gamma^{(3)}, \beta^{(3)}) \\
 &+ bn(M^{(1)} \ast W^{(1)}, \mu^{(1)}, \sigma^{(1)}, \gamma^{(1)}, \beta^{(1)}) \\
 &+ bn(M^{(1)}, \mu^{(0)}, \sigma^{(0)}, \gamma^{(0)}, \beta^{(0)}). \tag{1}
-\end{aligned} 
+\end{align} 
 $$
 
 如果不考虑 `identity` 的分支，上述等式只有前面两部分。这里 `bn` 表示推理时 `BN` 计算函数，$1 \leq i \leq C_2$。`bn` 函数公式如下：
