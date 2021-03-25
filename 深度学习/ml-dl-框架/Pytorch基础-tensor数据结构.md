@@ -84,6 +84,7 @@ print(matrix2)
 ```
 
 程序输出结果如下：
+
 ![tensor数据类型](../../images/tensor属性.png)
 
 ### view 和 reshape 的区别
@@ -166,6 +167,6 @@ tensor([[1., 0., 0.],
 ```
 
 ## 参考资料
+
 + [PyTorch：view() 与 reshape() 区别详解](https://blog.csdn.net/Flag_ing/article/details/109129752)
 + [torch.rand和torch.randn和torch.normal和linespace()](https://zhuanlan.zhihu.com/p/115997577)
-
