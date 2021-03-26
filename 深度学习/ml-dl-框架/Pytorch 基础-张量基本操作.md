@@ -131,20 +131,26 @@ tensor([[1, 2],
 tensor([[ 1,  1],
         [ 4,  3]])
 ```
+
 `output` 值的计算如下：
+
 ```shell
 output[i][j] = input[i][index[i][j]]  # if dim = 1
 output[0][0] = input[0][index[0][0]] = input[0][0] = 1
 output[0][1] = input[0][index[0][1]] = input[0][0] = 1
 output[1][0] = input[1][index[1][0]] = input[1][1] = 4
 output[1][1] = input[1][index[1][1]] = input[1][0] = 3
-``` 
+```
+
 总结：**可以看到 `gather` 是通过将索引在指定维度 `dim` 上的值替换为 `index` 的值，但是其他维度索引不变的情况下获取 `tensor` 数据**。直观上可以理解为对矩阵进行重排，比如对每一行(dim=1)的元素进行变换，比如 `torch.gather(a, 1, torch.tensor([[1,2,0], [1,2,0]]))` 的作用就是对 矩阵 `a` 每一行的元素，进行 `permtute(1,2,0)` 操作。
-理解了 `gather` 再看 `index_select` 就很简单，函数作用是返回沿着输入张量的指定维度的指定索引号进行索引的张量子集。函数定义如下：
+2，理解了 `gather` 再看 `index_select` 就很简单，函数作用是返回沿着输入张量的指定维度的指定索引号进行索引的张量子集。函数定义如下：
+
 ```python
 torch.index_select(input, dim, index, *, out=None) → Tensor
 ```
+
 函数返回一个新的张量，它使用数据类型为 `LongTensor` 的 `index` 中的条目沿维度 `dim` 索引输入张量。返回的张量具有与原始张量（输入）相同的维数。 维度尺寸与索引长度相同； 其他尺寸与原始张量中的尺寸相同。实例代码如下：
+
 ```python
 >>> x = torch.randn(3, 4)
 >>> x
