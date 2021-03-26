@@ -306,10 +306,13 @@ x = torch.rand(1,3,224,224)
 y = F.interpolate(x * 2, scale_factor=(2, 2), mode='bilinear').squeeze(0)
 print(y.shape)   # torch.Size([3, 224, 224)
 ```
+
 ### 5.3，nn.ConvTranspose2d 反卷积
-反卷积，又称为转置卷积（`Transposed Convolution`），它是一种特殊的卷积，先 `padding` 来扩大图像尺寸，紧接着跟正向卷积一样，旋转卷积核 180 度，再进行卷积计算。
+
+转置卷积（有时候也称为反卷积，个人觉得这种叫法不是很规范），它是一种特殊的卷积，先 `padding` 来扩大图像尺寸，紧接着跟正向卷积一样，旋转卷积核 180 度，再进行卷积计算。
 
 ## 参考资料
+
 + [pytorch演示卷积和反卷积运算](https://blog.csdn.net/qq_37879432/article/details/80297263)
 + [torch.Tensor](https://pytorch.org/docs/1.7.0/tensors.html#torch.Tensor)
 + [PyTorch学习笔记(10)——上采样和PixelShuffle](https://blog.csdn.net/g11d111/article/details/82855946)
