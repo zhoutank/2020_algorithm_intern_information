@@ -6,7 +6,7 @@
 
 ## C++ 构造函数和析构函数的初始化顺序
 
-> 本回答参考[C++ 构造函数初始化顺序](https://blog.csdn.net/qq_30835655/article/details/66971183)
+> 本回答参考[C++ 构造函数初始化顺序](https://blog.csdn.net/qq_30835655/article/details/66971183), [C++奇奇怪怪的题目之构造析构顺序](http://gaocegege.com/Blog/cpp/cppclass)
 
 有**多个基类的派生类(多继承)**的构造函数初始化按照如下顺序进行：
 
