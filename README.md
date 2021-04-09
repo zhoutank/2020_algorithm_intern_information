@@ -16,6 +16,10 @@
 + [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
 + [Python 编程面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python-Shell%20%E5%9F%BA%E7%A1%80.md)
 
+## CV 算法工程师应掌握知识点
+
+![CV算法工程师 掌握知识点](./images/CV算法工程师应掌握知识点.png)
+
 ## 算法/图像/CS基础/编程语言(`RoadMap`)
 
 > GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读，也可以使用安装了 `Markdown+Math` 插件的 `vscode` 软件阅读。
