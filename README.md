@@ -16,7 +16,7 @@
 + [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
 + [Python 编程面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python-Shell%20%E5%9F%BA%E7%A1%80.md)
 
-## CV 算法工程师应掌握知识点
+## CV 知识点
 
 ![CV算法工程师 掌握知识点](./images/CV算法工程师应掌握知识点.png)
 
