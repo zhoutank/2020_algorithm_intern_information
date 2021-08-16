@@ -12,11 +12,12 @@
 ## 目录
 
 + [计算机基础](./1-computer_basics/) 
-+ [编程语言](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80)
-+ [数据结构与算法](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
-+ [机器学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0)
-+ [深度学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0)
-+ [计算机视觉](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89)
++ [编程语言](2-programming_language)
++ [数据结构与算法](3-data structure-algorithm)
++ [机器学习](4-machine_learning)
++ [深度学习](5-deep_learning)
++ [计算机视觉](6-computer_vision)
++ [图像算法岗面经](7-interview_summary)
 
 > GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读，也可以使用安装了 `Markdown+Math` 插件的 `vscode` 软件阅读。
 
