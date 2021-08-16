@@ -8,7 +8,7 @@
 
 一个滤波器（`3` 维卷积核）在输入特征图 $h_1 \times w_1 \times c_1$ 大小的区域内操作，输出结果为 `1` 个 `feature map` ，因为输出 `feature map` 的数量为 $c_2$ 个，所以需要 $c_2$ 个滤波器。标准卷积抽象过程如下图所示。
 
-![标准卷积过程](../../images/mobilenetv1/标准卷积过程.png)
+![标准卷积过程](../../data/images/mobilenetv1/标准卷积过程.png)
 
 `2D` 卷积计算过程动态图如下，通过这张图能够更直观理解卷积核如何执行滑窗操作，又如何相加并输出 $c_2$ 个  `feature map` ，动态图来源[这里](https://blog.csdn.net/v_july_v/article/details/51812459?utm_source=copy)。
 ![卷积过程](https://img-blog.csdn.net/20160707204048899)
@@ -17,11 +17,11 @@
 
 `Group Convolution` 分组卷积，最早见于 `AlexNet`。常规卷积与分组卷积的输入 feature map 与输出 feature map 的连接方式如下图所示，图片来自[CondenseNet](https://www.researchgate.net/figure/The-transformations-within-a-layer-in-DenseNets-left-and-CondenseNets-at-training-time_fig2_321325862)。
 
-![分组卷积](../../images/mobilenetv1/分组卷积.png)
+![分组卷积](../../data/images/mobilenetv1/分组卷积.png)
 
 **分组卷积的定义**：对输入 `feature map` 进行分组，然后分组分别进行卷积。假设输入 feature map 的尺寸为 $H \times W \times c_{1}$，输出 feature map 数量为 $c_2$ 个，如果将输入 feature map 按通道分为 $g$ 组，则每组特征图的尺寸为 $H \times W \times \frac{c_1}{g}$，**每组**对应的滤波器（卷积核）的 尺寸 为 $h_{1} \times w_{1} \times \frac{c_{1}}{g}$，每组的滤波器数量为  $\frac{c_{2}}{g}$ 个，滤波器总数依然为 $c_2$ 个。每组的滤波器只与其同组的输入 map 进行卷积，每组输出特征图尺寸为 $H \times W \times \frac{c_{2}}{g}$，将 $g$ 组卷积后的结果进行拼接 (`concatenate`) 得到最终的得到最终尺寸为 $H \times W \times c_2$ 的输出特征图，其分组卷积过程如下图所示：
 
-![分组卷积过程2](../../images/mobilenetv1/分组卷积过程2.png)
+![分组卷积过程2](../../data/images/mobilenetv1/分组卷积过程2.png)
 
 **分组卷积的意义：**分组卷积是现在网络结构设计的核心，它通过通道之间的**稀疏连接**（也就是只和同一个组内的特征连接）来降低计算复杂度。一方面，它允许我们使用更多的通道数来增加网络容量进而提升准确率，但另一方面随着通道数的增多也对带来更多的 $MAC$。针对 $1 \times 1$ 的分组卷积，$MAC$ 和 $FLOPs$ 计算如下：
 
@@ -47,7 +47,7 @@ $$
 
 引入**深度可分离卷积的 Inception，称之为 Xception**，其作为 Inception v3 的改进版，在 ImageNet 和 JFT 数据集上有一定的性能提升，但是参数量和速度并没有太大的变化，因为 Xception 的目的也不在于模型的压缩。深度可分离卷积的 Inception 模块如图  Figure 4 所示。
 
-![Xeption](../../images/mobilenetv1/Xception.png)
+![Xeption](../../data/images/mobilenetv1/Xception.png)
 
 Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离卷积模块相似，区别在于：深度可分离卷积先进行 `channel-wise` 的空间卷积，再进行 $1 \times 1$ 的通道卷积，Figure 4 的 Inception 则相反；
 
@@ -57,8 +57,8 @@ Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离�
 
 `MobileNets` 是谷歌 2017 年提出的一种高效的移动端轻量化网络，其核心是深度可分离卷积。`depthwise separable convolutions`（深度可分离卷积） 的核心思想是将一个完整的卷积运算分解为两步进行，分别为 Depthwise Convolution（`DW` 卷积） 与 Pointwise Convolution（`PW` 卷积）。深度可分离卷积的计算步骤和滤波器尺寸如下所示。
 
-![深度可分离卷积的计算步骤](../../images/mobilenetv1/深度可分离卷积的计算步骤.png)
-![滤波器尺寸](../../images/mobilenetv1/滤波器尺寸.png)
+![深度可分离卷积的计算步骤](../../data/images/mobilenetv1/深度可分离卷积的计算步骤.png)
+![滤波器尺寸](../../data/images/mobilenetv1/滤波器尺寸.png)
 
 #### Depthwise 卷积
 
@@ -66,7 +66,7 @@ Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离�
 
 不同于常规卷积操作， Depthwise Convolution 的一个卷积核只负责一个通道，**一个通道只能被一个卷积核卷积**（不同的通道采用不同的卷积核卷积），也就是输入通道、输出通道和分组数相同的特殊分组卷积，因此 Depthwise（`DW`）卷积不会改变输入特征图的通道数目。深度可分离卷积的 `DW`卷积步骤如下图：
 
-![DW卷积计算步骤](../../images/mobilenetv1/DW卷积计算步骤.jpg)
+![DW卷积计算步骤](../../data/images/mobilenetv1/DW卷积计算步骤.jpg)
 
 `DW` 卷积的计算量 $MACC  = M \times D_{G}^{2} \times D_{K}^{2}$
 
@@ -74,7 +74,7 @@ Figure 4 中的“极限” Inception 模块与本文的主角-深度可分离�
 
 上述 Depthwise 卷积的问题在于它让每个卷积核单独对一个通道进行计算，但是各个通道的信息没有达到交换，从而在网络后续信息流动中会损失通道之间的信息，因此论文中就加入了 Pointwise 卷积操作，来进一步融合通道之间的信息。PW 卷积是一种特殊的常规卷积，卷积核的尺寸为 $1 \times 1$。`PW` 卷积的过程如下图：
 
-![PW卷积过程](../../images/mobilenetv1/PW卷积过程.jpg)
+![PW卷积过程](../../data/images/mobilenetv1/PW卷积过程.jpg)
 
 假设输入特征图大小为 $D_{G} \times D_{G} \times M$，输出特征图大小为 $D_{G} \times D_{G} \times N$，则滤波器尺寸为 $1 \times 1 \times M$，因此可计算得到 `PW` 卷积的计算量 $MACC = N \times M \times D_{G}^{2}$。
 
@@ -95,7 +95,7 @@ $$
 
 $3 \times 3$ 的深度可分离卷积 `Block` 结构如下图所示：
 
-![3x3的深度可分离卷积Block结构](../../images/mobilenetv1/3x3的深度可分离卷积Block结构.png)
+![3x3的深度可分离卷积Block结构](../../data/images/mobilenetv1/3x3的深度可分离卷积Block结构.png)
 
 左边是带 `bn` 和 `relu` 的标准卷积层，右边是带 bn 和 relu 的深度可分离卷积层。
 $3 \times 3$ 的深度可分离卷积 `Block` 网络的 pytorch 代码如下：
@@ -119,7 +119,7 @@ class MobilnetV1Block(nn.Module):
 
 `MobileNet v1` 的 `pytorch` 模型导出为 `onnx` 模型后，`深度可分离卷积 block` 结构图如下图所示。
 
-![深度可分离卷积block的onnx模型结构图](../../images/mobilenetv1/深度可分离卷积block的onnx模型结构图.png)
+![深度可分离卷积block的onnx模型结构图](../../data/images/mobilenetv1/深度可分离卷积block的onnx模型结构图.png)
 
 仅用 MobileNets 的 `Mult-Adds`（乘加操作）次数更少来定义高性能网络是不够的，确保这些操作能够有效实施也很重要。例如非结构化稀疏矩阵运算（unstructured sparse matrix operations）通常并不会比密集矩阵运算（dense matrix operations）快，除非是非常高的稀疏度。
 > 这句话是不是和 `shufflenet v2` 的观点一致，即不能仅仅以 FLOPs 计算量来表现网络的运行速度，除非是同一种网络架构。
@@ -128,7 +128,7 @@ MobileNet 模型结构将几乎所有计算都放入密集的 1×1 卷积中（d
 
 如表 2 所示，MobileNet 模型的 `1x1` 卷积占据了 `95%` 的计算量和 `75%` 的参数，剩下的参数几乎都在全连接层中， 3x3 的 DW 卷积核常规卷积占据了很少的计算量（Mult-Adds）和参数。
 
-![表2](../../images/mobilenetv1/表2.png)
+![表2](../../data/images/mobilenetv1/表2.png)
 
 ### 2.3、宽度乘系数-更小的模型
 
@@ -138,7 +138,7 @@ $$\alpha M \times D_{G}^{2} \times D_{K}^{2} + \alpha N \times \alpha M \times D
 
 其中 $\alpha \in (0,1]$，典型值设置为 `1、0.75、0.5` 和 `0.25`。$\alpha = 1$ 是基准 MobileNet 模型，$\alpha < 1$ 是缩小版的 `MobileNets`。**宽度乘数的作用是将计算量和参数数量大约减少 $\alpha^2$ 倍，从而降低了网络计算成本（ computational cost of a neural network）**。 宽度乘数可以应用于任何模型结构，以定义新的较小模型，**且具有合理的准确性、网络延迟 `latency` 和模型大小之间的权衡**。 它用于定义新的精简结构，需要从头开始进行训练模型。基准 `MobileNet` 模型的整体结构定义如表 1 所示。
 
-![表1](../../images/mobilenetv1/表1.png)
+![表1](../../data/images/mobilenetv1/表1.png)
 
 ### 2.4、分辨率乘系数-减少表示
 

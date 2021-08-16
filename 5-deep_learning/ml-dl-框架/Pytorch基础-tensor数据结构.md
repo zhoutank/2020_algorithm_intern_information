@@ -57,7 +57,7 @@ tensor([[ 2.0000, -2.0000],
 
 Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型：
 
-![tensor数据类型](../../images/tensor数据类型.png)
+![tensor数据类型](../../data/images/tensor数据类型.png)
 
 `torch.Tensor` 是默认的 tensor 类型（`torch.FloatTensor`）的简称，即 `32` 位浮点数数据类型。
 
@@ -85,7 +85,7 @@ print(matrix2)
 
 程序输出结果如下：
 
-![tensor数据类型](../../images/tensor属性.png)
+![tensor数据类型](../../data/images/tensor属性.png)
 
 ### view 和 reshape 的区别
 

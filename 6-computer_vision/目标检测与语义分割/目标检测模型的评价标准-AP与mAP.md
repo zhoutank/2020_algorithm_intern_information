@@ -49,7 +49,7 @@
 
 精准率和召回率的关系可以用一个 `P-R` 图来展示，以查准率 `P` 为纵轴、查全率 `R` 为横轴作图，就得到了查准率－查全率曲线，简称**P-R**曲线，PR 曲线下的面积定义为 `AP`:
 
-![PR曲线图](../../images/PR曲线图.jpeg)
+![PR曲线图](../../data/images/PR曲线图.jpeg)
 
 ### 1.3，如何理解 P-R曲线
 
@@ -103,7 +103,7 @@ $$F1\ score = \frac{2 \times P \times R}{(P + R)}$$
 
 ## 二，AP计算概述
 
-![分类问题的PR曲线图](../../images/分类PR曲线图.png)
+![分类问题的PR曲线图](../../data/images/分类PR曲线图.png)
 
 知道了`AP` 的定义，下一步就是理解`AP`计算的实现，理论上可以通过积分来计算`AP`，公式如下：
 $$AP=\int_0^1 P(r) dr$$
@@ -173,17 +173,17 @@ def draw_PR_curve(predict_scores, eval_labels, name, cls_idx=1):
 
 插值计算(`Interpolated average precision`) AP 的公式的演变过程这里不做讨论，详情可以参考这篇[文章](https://arleyzhang.github.io/articles/c521a01c/)，我这里的公式和图也是参考此文章的。`11点插值计算方式计算AP公式`如下：
 
-![11点插值计算方式计算AP公式](../../images/插值计算AP公式.png)
+![11点插值计算方式计算AP公式](../../data/images/插值计算AP公式.png)
 
 + 这是通常意义上的 11 points_Interpolated 形式的 AP，选取固定的 {0,0.1,0.2,…,1.0} 11个阈值，这个在PASCAL2007中有使用
 + 这里因为参与计算的只有11个点，所以 K=11，称为11points_Interpolated，k为阈值索引
 + $P_{interp}(k)$ 取第 k 个阈值所对应的样本点之后的样本中的最大值，只不过这里的阈值被限定在了 {0,0.1,0.2,…,1.0} 范围内。
 
-![插值计算方式计算AP的PR曲线图](../../images/插值计算AP的PR曲线图.png)
+![插值计算方式计算AP的PR曲线图](../../data/images/插值计算AP的PR曲线图.png)
 
 从曲线上看，真实 `AP< approximated AP < Interpolated AP`，`11-points Interpolated AP` 可能大也可能小，当数据量很多的时候会接近于 `Interpolated AP`，与 `Interpolated AP` 不同，前面的公式中计算 `AP` 时都是对 `PR` 曲线的面积估计，PASCAL的论文里给出的公式就更加简单粗暴了，直接计算`11` 个阈值处的 `precision` 的平均值。`PASCAL` 论文给出的 `11` 点计算 `AP` 的公式如下。
 
-![PASCAL论文给出的11点计算AP公式](../../images/11点计算AP公式.png)
+![PASCAL论文给出的11点计算AP公式](../../data/images/11点计算AP公式.png)
 
 ## 三，AP计算实现
 
@@ -403,7 +403,7 @@ def voc_eval(detpath,
 
 ## 五，目标检测度量标准汇总
 
-![目标检测指标汇总](../../images/目标检测度量标准汇总.jpg)
+![目标检测指标汇总](../../data/images/目标检测度量标准汇总.jpg)
 
 ## 参考资料
 
