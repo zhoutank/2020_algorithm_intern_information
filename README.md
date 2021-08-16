@@ -11,9 +11,9 @@
 
 ## 目录
 
-+ [计算机基础](./1-computer_basics/) 
++ [计算机基础](./1-computer_basics/)
 + [编程语言](2-programming_language)
-+ [数据结构与算法](3-data structure-algorithm)
++ [数据结构与算法](3-data_structure-algorithm)
 + [机器学习](4-machine_learning)
 + [深度学习](5-deep_learning)
 + [计算机视觉](6-computer_vision)
