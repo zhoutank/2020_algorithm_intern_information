@@ -1,40 +1,39 @@
 ## 前言
 
-本仓库的知识点和文章主要用于个人复习和作知识点总结使用，部分内容参考自`github项目/网络资料/书籍`资料和[个人博客](http://www.armcvai.com/)等，由于时间和精力有限，有些知识点还没有没有完成, 所以我推荐额外阅读以下 `github` 仓库项目来进行补充阅读（有些已经停止更新, 当作参考）。
+本项目内容是个人学习笔记及博客文章，也包括了校招的面经和一些 `cv` 领域内的一些公司实习内推分享、及可投递公司，**欢迎更多人持续更新校招及实习内推表**。
 
-> 强调一下如何从“零”起步，首先确保基础打好。建议完整修完一门国外经典课程（从课程视频、作业到项目），然后完整阅读一本机器学习或者深度学习教科书，同时熟练掌握一门基本的编程语言以及深度学习框架。参考[中国人民大学赵鑫：AI 科研入坑指南](https://mp.weixin.qq.com/s/UH7UIq7ajwpdR6fZ9CfG6Q)。
+项目部分内容参考自`github` 项目/网络博客/书籍和 [个人博客](http://www.armcvai.com/) 等，由于时间和精力有限，有些知识点还没有没有完成, 所以我也推荐阅读以下 `github` 仓库项目来进行补充阅读（有些已经停止更新, 当作参考）。
 
 + [Algorithm_Interview_Notes-Chinese](https://github.com/imhuay/Algorithm_Interview_Notes-Chinese)
 + [关于Python的面试题](https://github.com/taizilongxu/interview_python)
 + [CS-Notes](https://github.com/CyC2018/CS-Notes)
 + [用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
-## 深度学习面试题
+## 目录
 
-> 深度学习基础的一些面试题和 `Python` 编程相关的面试题，部分题目来源网上资料。
-
-+ [深度学习面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.md)
-+ [Python 编程面试题](https://github.com/HarleysZhang/2020_algorithm_intern_information/blob/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python-Shell%20%E5%9F%BA%E7%A1%80.md)
-
-## CV 知识点
-
-![CV算法工程师 掌握知识点](./images/CV算法工程师应掌握知识点.png)
-
-## 算法/图像/CS基础/编程语言(`RoadMap`)
-
-> GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读，也可以使用安装了 `Markdown+Math` 插件的 `vscode` 软件阅读。
-
-+ [计算机基础](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80)
-+ [数据结构与算法](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
++ [计算机基础](./1-computer_basics/) 
 + [编程语言](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80)
++ [数据结构与算法](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
 + [机器学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0)
 + [深度学习](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0)
 + [计算机视觉](https://github.com/HarleysZhang/2019_algorithm_intern_information/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89)
 
-## 2020春招算法实习岗位表
+> GitHub 无法直接阅读公式，建议在谷歌浏览器安装 `MathJax Plugin for Github` 插件访问，或者下载仓库到本地，使用 `Typora` 软件阅读，也可以使用安装了 `Markdown+Math` 插件的 `vscode` 软件阅读。
 
-2020 年春招近期实习岗位汇总，还有待完善，持续更新，也希望各位一起更新。
-注意：大部分岗位都是面向 2021 年毕业的学生。
+作为一个计算机视觉算法工程师，需要掌握的不仅是计算机编程知识，还需要掌握机器学习、深度学习、图像识别、目标检测、语义分割等知识点，我整理了一个 [知识点思维导图](./images/CV算法工程师应掌握知识点.png)。
+
+## 深度学习面试题
+
+> 深度学习基础的一些面试题和 `Python` 编程相关的面试题，部分题目来源网上资料。
+
++ [深度学习面试题](5-deep_learning/深度学习基础.md)
++ [Python 编程面试题](2-programming_language/Python%20编程基础.md)
+
+强调一下如何从“零”起步，首先确保基础打好。建议完整修完一门国外经典课程（从课程视频、作业到项目），然后完整阅读一本机器学习或者深度学习教科书，同时熟练掌握一门基本的编程语言以及深度学习框架。参考 [中国人民大学赵鑫：AI 科研入坑指南](https://mp.weixin.qq.com/s/UH7UIq7ajwpdR6fZ9CfG6Q)。
+
+## 春招算法实习岗位表
+
+春招算法实习岗位汇总，还有待完善，持续更新，也希望各位一起更新。之前的信息可能部分失效，注意筛选。
 
 |公司|招聘岗位|工作地点|截止时间|投递方式|内推方式|是否投递|信息来源|
 |---|-------|-------|------|-------|-------|------|-------|
@@ -70,13 +69,13 @@
 |图森未来|感知算法实习生等|北京|未知|内推邮箱:yifyang29@gmail.com|简历命名格式：姓名+电话号码+应聘岗位|无|我爱计算机视觉公众号|
 |最右|视频图像算法工程师实习|北京|未知|内推邮箱:sunhaiyong2014@xiaochuankeji.cn|简历命名格式：CVer推荐+姓名+电话+社招/校招/实习|CVer公众号|
 |爱奇艺智能平台部-视频分析组|视频理解算法实习生|北京中关村|未知|内推邮箱:zhangyuntao@qiyi.com|简历命名格式：CVer推荐+学校+研究方向+实习开始时间+毕业时间|CVer公众号|
-|依图科技|校招、实习、社招|上海、北京、杭州|长期|![依图科技-校招内推](images/依图科技-校招内推.png)|微信扫描二维码（长期有效），链接中的岗位均可投递||
+|依图科技|校招、实习、社招|上海、北京、杭州|长期|![依图科技-校招内推](images/依图科技-校招内推.png)|微信扫描二维码（**长期有效**），链接中的岗位均可投递||
 
-## 2020年校招可投递公司-计算机视觉/机器学习算法工程师
+## 校招可投递公司
 
-侧重于于计算机视觉/图像/机器学习算法工程师岗位,公司排名几乎部分先后。
+虽然算法工程师可投递的公司是较多的，但是岗位提供的 `hc` 是不及开发多的，这点需要注意。以下表格侧重于于计算机视觉/图像/机器学习算法工程师岗位。
 
-|神级公司|互联网公司|AI独角兽公司|其他大公司|是否投递|
+|`top`级公司|互联网公司|AI独角兽公司|其他大公司|是否投递|
 |------------|---------------|---------------|-------------|----------------|
 |百度|美团|地平线机器人|顺丰科技|否|
 |阿里巴巴|滴滴出行|图森未来|招银网络科技|否|
@@ -85,12 +84,12 @@
 |微软|网易|蔚来汽车|海康威视|，是，|
 |谷歌|快手|小鹏汽车|虹软科技|否|
 |商汤|爱奇艺|科大讯飞|华为|否|
-|旷世|小米|寒武纪/依图|大华|否|
+|英伟达|小米|寒武纪/依图|大华|否|
 |博世|陌陌|格灵深瞳|中兴|否|
 |大疆无人机|美图MTlab|文行知远|联想|否|
 |蚂蚁金服|360安全|云天励飞|汇顶科技|否|
-|英伟达|搜狗|松鼠AI|美的中央研究院|，是，|
-|Intel/亚马逊|猿辅导|思必驰|锐明技术|否|
+|Intel/亚马逊|搜狗|旷视|美的中央研究院|，是，|
+||猿辅导|思必驰|锐明技术|否|
 |无|新浪/搜狐/金山|奥比中光|联发科|否|
 |无|YY/虎牙/BIGO/斗鱼|优必选|联影医疗|否|
 |无|oppo/vivo/一加|度小满金融|戴尔|否|
