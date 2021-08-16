@@ -10,7 +10,8 @@
 
 ![标准卷积过程](../../data/images/mobilenetv1/标准卷积过程.png)
 
-`2D` 卷积计算过程动态图如下，通过这张图能够更直观理解卷积核如何执行滑窗操作，又如何相加并输出 $c_2$ 个  `feature map` ，动态图来源[这里](https://blog.csdn.net/v_july_v/article/details/51812459?utm_source=copy)。
+`2D` 卷积计算过程动态图如下，通过这张图能够更直观理解卷积核如何执行滑窗操作，又如何相加并输出 $c_2$ 个  `feature map` ，动态图来源 [这里](https://blog.csdn.net/v_july_v/article/details/51812459?utm_source=copy)。
+
 ![卷积过程](https://img-blog.csdn.net/20160707204048899)
 
 ### 分组卷积
