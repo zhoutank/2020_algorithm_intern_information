@@ -2,7 +2,7 @@
 
 本项目内容是个人学习笔记及博客文章，也包括了校招的面经和一些 `cv` 领域内的一些公司实习内推分享、及可投递公司，**欢迎更多人持续更新校招及实习内推表**。
 
-项目部分内容参考自`github` 项目/网络博客/书籍和 [个人博客](http://www.armcvai.com/) 等，由于时间和精力有限，有些知识点还没有没有完成, 所以我也推荐阅读以下 `github` 仓库项目来进行补充阅读（有些已经停止更新, 当作参考）。
+项目部分内容参考自 `github` 项目/网络博客/书籍和 [个人博客](http://www.armcvai.com/) 等，由于时间和精力有限，有些知识点还没有没有完成, 所以我也推荐阅读以下 `github` 仓库项目来进行补充阅读（有些已经停止更新, 当作参考）。
 
 + [Algorithm_Interview_Notes-Chinese](https://github.com/DarLiner/Algorithm_Interview_Notes-Chinese)
 + [关于Python的面试题](https://github.com/taizilongxu/interview_python)
