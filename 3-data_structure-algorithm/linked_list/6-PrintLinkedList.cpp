@@ -3,7 +3,8 @@
 
 /*
 解题思路1：使用栈的思想(Python 用 list 模拟栈, pop 弹出栈头元素)
-> 和 C 语言不同，C++ 的结构体可以有构造函数！
+// 栈具有后进先出的特点，在遍历链表时将值按顺序放入栈中，最后出栈的顺序即为逆序。
+// > 和 C 语言不同，C++ 的结构体可以有构造函数！
 */
 
 # include <stdio.h>
@@ -74,7 +75,6 @@ int main(){
     Solution s1;
     vector<int> ret = s1.reversePrint(head);
     print_vector(ret);
-
 }
 
 
