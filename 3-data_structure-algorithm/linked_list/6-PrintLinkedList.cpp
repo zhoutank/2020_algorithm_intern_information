@@ -14,6 +14,23 @@
 
 using namespace std;
 
+class Solution{
+public:
+    vector<int> reversePrint(ListNode* head) {
+        stack<int> values;  // 创建一个不包含任何元素的 stack 适配器，并采用默认的 deque 基础容器：
+        vector<int> result;
+        while (head != nullptr){
+            values.push(head->val);
+            head = head->next;
+        }
+        while(!values.empty()){
+            result.push_back(values.top());
+            values.pop();
+        }
+        return result;
+    }
+};
+
 /*
 * 打印一维向量（矩阵）的元素
 */
@@ -51,24 +68,6 @@ ListNode* createLinkedList(int n){
     return head;
 
 }
-
-class Solution{
-public:
-    vector<int> reversePrint(ListNode* head) {
-        stack<int> values;  // 创建一个不包含任何元素的 stack 适配器，并采用默认的 deque 基础容器：
-        vector<int> result;
-        while (head != nullptr){
-            values.push(head->val);
-            head = head->next;
-        }
-        while(!values.empty()){
-            result.push_back(values.top());
-            values.pop();
-        }
-        return result;
-    }
-};
-
 
 int main(){
     ListNode* head = createLinkedList(10);
